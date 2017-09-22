@@ -227,25 +227,32 @@ class Tracker(object):
         """Plot x-y position, irrespective of time. If comp is True,
         the x and y positions are plotted on separate subplots with
         respect to time."""
+        x = [p[0] for p in self.positions]
+        y = [p[1] for p in self.positions]
         if comp:
             f, axarr = plt.subplots(2, sharex=True, sharey=True, figsize=(12, 6))
-            x = [p[0] for p in self.positions]
-            y = [p[1] for p in self.positions]
             axarr[0].plot(self.posTimes, x, "k-", linewidth=1)
             axarr[1].plot(self.posTimes, y, "r-", linewidth=1)
             axarr[0].set_title("x Position")
             axarr[1].set_title("y Position")
+            axarr[0].minorticks_on()
+            axarr[1].minorticks_on()
+            axarr[0].grid(which="major", linestyle='-', linewidth='0.5', color='black')
+            axarr[1].grid(which="major", linestyle='-', linewidth='0.5', color='black')
+            axarr[0].grid(which='minor', linestyle='--', linewidth='0.5', color='grey')
+            axarr[1].grid(which='minor', linestyle='--', linewidth='0.5', color='grey')
             f.add_subplot(111, frameon=False)
             plt.tick_params(labelcolor="none", top="off", bottom="off", left="off", right="off")
             plt.xlabel("Time(s)")
             plt.ylabel("Position({})".format(self.scale[1]), labelpad=15)
         else:
             plt.figure()
-            x = [p[0] for p in self.positions]
-            y = [p[1] for p in self.positions]
+            plt.plot(x, y, "b-", linewidth=1)
+            plt.minorticks_on()
+            plt.grid(which="major", linestyle='-', linewidth='0.5', color='black')
+            plt.grid(which='minor', linestyle='--', linewidth='0.5', color='grey')
             plt.xlabel("x Position({})".format(self.scale[1]))
             plt.ylabel("y Position({})".format(self.scale[1]))
-            plt.plot(x, y, "b-", linewidth=1)
         plt.show()
     
     def plotVel(self, comp=False):
@@ -257,6 +264,12 @@ class Tracker(object):
             axarr[1].plot(self.velTimes, self.yVel, "r-", linewidth=1)
             axarr[0].set_title("x Component of Velocity")
             axarr[1].set_title("y Component of Velocity")
+            axarr[0].minorticks_on()
+            axarr[1].minorticks_on()
+            axarr[0].grid(which="major", linestyle='-', linewidth='0.5', color='black')
+            axarr[1].grid(which="major", linestyle='-', linewidth='0.5', color='black')
+            axarr[0].grid(which='minor', linestyle='--', linewidth='0.5', color='grey')
+            axarr[1].grid(which='minor', linestyle='--', linewidth='0.5', color='grey')
             f.add_subplot(111, frameon=False)
             plt.tick_params(labelcolor="none", top="off", bottom="off", left="off", right="off")
             plt.xlabel("Time(s)")
@@ -264,6 +277,9 @@ class Tracker(object):
         else:
             plt.figure(figsize=(15, 5))
             plt.plot(self.velTimes, self.speeds, "k-", linewidth=1)
+            plt.minorticks_on()
+            plt.grid(which="major", linestyle='-', linewidth='0.5', color='black')
+            plt.grid(which='minor', linestyle='--', linewidth='0.5', color='grey')
             plt.xlabel("Time(s)")
             plt.ylabel("Speed({}/s)".format(self.scale[1]))
         plt.show()
@@ -277,6 +293,12 @@ class Tracker(object):
             axarr[1].plot(self.accelTimes, self.yAccel, "r-", linewidth=1)
             axarr[0].set_title("x Component of Acceleration")
             axarr[1].set_title("y Component of Acceleration")
+            axarr[0].minorticks_on()
+            axarr[1].minorticks_on()
+            axarr[0].grid(which="major", linestyle='-', linewidth='0.5', color='black')
+            axarr[1].grid(which="major", linestyle='-', linewidth='0.5', color='black')
+            axarr[0].grid(which='minor', linestyle='--', linewidth='0.5', color='grey')
+            axarr[1].grid(which='minor', linestyle='--', linewidth='0.5', color='grey')
             f.add_subplot(111, frameon=False)
             plt.tick_params(labelcolor="none", top="off", bottom="off", left="off", right="off")
             plt.xlabel("Time(s)")
@@ -284,6 +306,9 @@ class Tracker(object):
         else:
             plt.figure(figsize=(15, 5))
             plt.plot(self.accelTimes, self.accel, "g-", linewidth=1)
+            plt.minorticks_on()
+            plt.grid(which="major", linestyle='-', linewidth='0.5', color='black')
+            plt.grid(which='minor', linestyle='--', linewidth='0.5', color='grey')
             plt.xlabel("Time(s)")
             plt.ylabel("Acceleration({}/s^2)".format(self.scale[1]))
         plt.show()
@@ -309,30 +334,30 @@ class Tracker(object):
     def eventHandler(self, event, x, y, flags, param):
         """Function for handling mouse click and drag events."""
         if event == cv2.EVENT_LBUTTONDOWN:
-            if hypot(x - self.axes.origin[0], y - self.axes.origin[1]) <= 5:
+            if hypot(x - self.scaleLine[0][0], y - self.scaleLine[0][1]) <= 5:
                 self.dragItem = 1
-                self.axes.dragCent = (self.axes.dragCent[0] + x - self.axes.origin[0], self.axes.dragCent[1] + y - self.axes.origin[1])
-                self.axes.origin = (x, y)
-            elif hypot(x - self.axes.dragCent[0], y - self.axes.dragCent[1]) <= 5:
-                self.dragItem = 2
-                self.axes.dragCent = (x, y)
-            elif hypot(x - self.scaleLine[0][0], y - self.scaleLine[0][1]) <= 5:
-                self.dragItem = 3
                 self.scaleLine = ((x, y), self.scaleLine[1])
             elif hypot(x - self.scaleLine[1][0], y - self.scaleLine[1][1]) <= 5:
-                self.dragItem = 4
+                self.dragItem = 2
                 self.scaleLine = (self.scaleLine[0], (x, y))
+            elif hypot(x - self.axes.dragCent[0], y - self.axes.dragCent[1]) <= 5:
+                self.dragItem = 3
+                self.axes.dragCent = (x, y)
+            elif hypot(x - self.axes.origin[0], y - self.axes.origin[1]) <= 5:
+                self.dragItem = 4
+                self.axes.dragCent = (self.axes.dragCent[0] + x - self.axes.origin[0], self.axes.dragCent[1] + y - self.axes.origin[1])
+                self.axes.origin = (x, y)
         elif event == cv2.EVENT_MOUSEMOVE:
             if self.dragItem:
                 if self.dragItem == 1:
+                    self.scaleLine = ((x, y), self.scaleLine[1])
+                elif self.dragItem == 2:
+                    self.scaleLine = (self.scaleLine[0], (x, y))
+                elif self.dragItem == 3:
+                    self.axes.dragCent = (x, y)
+                elif self.dragItem == 4:
                     self.axes.dragCent = (self.axes.dragCent[0] + x - self.axes.origin[0], self.axes.dragCent[1] + y - self.axes.origin[1])
                     self.axes.origin = (x, y)
-                elif self.dragItem == 2:
-                    self.axes.dragCent = (x, y)
-                elif self.dragItem == 3:
-                    self.scaleLine = ((x, y), self.scaleLine[1])
-                elif self.dragItem == 4:
-                    self.scaleLine = (self.scaleLine[0], (x, y))
         elif event == cv2.EVENT_LBUTTONUP:
             self.dragItem = 0
     
