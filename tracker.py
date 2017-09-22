@@ -122,9 +122,7 @@ class Tracker(object):
             cv2.destroyAllWindows()
     
     def track(self, outputName="", resizeWidth=0):
-        """Tracks an object based on the HSV bounds supplied by the
-        user. This function records position, velocity, acceleration,
-        and time values, which are stored in the Tracker instance."""
+        """Tracks an object based on the HSV bounds supplied by the user."""
         if self.capture is None:
             raise CaptureError("Video capture not initialized. Use setVideo(<videoPath>) to initialize.")
         
@@ -262,7 +260,7 @@ class Tracker(object):
             f.add_subplot(111, frameon=False)
             plt.tick_params(labelcolor="none", top="off", bottom="off", left="off", right="off")
             plt.xlabel("Time(s)")
-            plt.ylabel("Speed({}/s)".format(self.scale[1]), labelpad=15)
+            plt.ylabel("Velocity({}/s)".format(self.scale[1]), labelpad=15)
         else:
             plt.figure(figsize=(15, 5))
             plt.plot(self.velTimes, self.speeds, "k-", linewidth=1)

@@ -2,26 +2,25 @@
 
 Based on the (messy) tracking code contained in [daphTrack](https://github.com/haydengunraj/daphTrack), I decided to make a neater, more generalized toolset for tracking and analyzing the motion of objects. MotionAnalysis allows for object tracking using HSV thresholding. Moreover, a coordinate system and scale can be set on the video using simple drag and drop commands in order to convert image coordinates into real-world spatial coordinates. As a result, position, velocity, and acceleration values for the object can be computed in terms of real-world dimensions, allowing for meaningful analysis of the tracker data.
 
-![Track](https://github.com/haydengunraj/MotionAnalysis/blob/master/samples/tracking.gif "Tracking")
-![Vel](https://github.com/haydengunraj/MotionAnalysis/blob/master/samples/velocity.png "Velocity")
+![Track](https://github.com/haydengunraj/MotionAnalysis/blob/master/samples/tracking.gif "Tracking")![Ex](https://github.com/haydengunraj/MotionAnalysis/blob/master/samples/plots.png "Plots")
 
 ## Example Usage
 
 ```python
 # import Tracker
-from MotionAnalysistracker import Tracker
+from MotionAnalysis.tracker import Tracker
 
 # Create Tracker instance with parameters
-t = Tracker(videoPath="extras/exampleIn.mov", hsvLow=(39, 0, 27), hsvHigh=(130, 255, 74))
+t = Tracker(videoPath="inputName.mov", hsvLow=(39, 0, 27), hsvHigh=(130, 255, 74))
 
 # Alternatively:
 #   t = Tracker()
-#   t.setVideo("extras/drop2_trim.mov")
+#   t.setVideo("inputName.mov")
 #   t.setThresh((39, 0, 27), (130, 255, 74))
 
-# Track, with the image width being reset to 640p
+# Track, with the image width being reset to 700p
 # Notably, output needs to be a .avi to work properly
-t.track(outputName="samples/exampleOut.avi", resizeWidth=700)
+t.track(outputName="outputName.avi", resizeWidth=700)
 ```
 
 At this point, a video will be shown depicting the tracking of the object, as shown in the GIF above.
