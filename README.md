@@ -7,7 +7,7 @@ Based on the (messy) tracking code contained in [daphTrack](https://github.com/h
 
 ## Example Usage
 
-'''python
+```python
 # import Tracker
 from MotionAnalysistracker import Tracker
 
@@ -22,16 +22,16 @@ t = Tracker(videoPath="extras/exampleIn.mov", hsvLow=(39, 0, 27), hsvHigh=(130, 
 # Track, with the image width being reset to 640p
 # Notably, output needs to be a .avi to work properly
 t.track(outputName="samples/exampleOut.avi", resizeWidth=700)
-'''
+```
 
 At this point, a video will be shown depicting the tracking of the object, as shown in the GIF above.
 
 Next, we need to set a coordinate system and scale for our tracker.
 
-'''python
+```python
 # Set axes and scale for the image
 t.setScale()
-'''
+```
 
 Here, the final frame of the tracking image will be shown, as well as axes and a scaling line (see below). The axes and scaling line operate on drag-and-drop controls at the red circles. The y-axis is yellow and the x-axis is red, and the control point on the y-axis is used to rotate the axes. After moving the scaling line, the real-world length of the scaling line can be set using the trackbar.
 
@@ -41,7 +41,7 @@ Notably, the example above is sideways, but can still be analysed in a 'normal' 
 
 We can new release our video capture, compute values which represent the object's motion, and plot these values.
 
-'''python
+```python
 # Release video capture
 t.release()
 
@@ -59,7 +59,7 @@ t.plotVel(comp=True)
 # Plot acceleration and its components
 t.plotAcc()
 t.plotAcc(comp=True)
-'''
+```
 
 The plotting functions above display position, velocity, and acceleration values in terms of real-world quantities. Some samples taken from the ball drop example are shown below.
 
