@@ -1,6 +1,6 @@
-# MotionAnalysis
+# MotionTracker
 
-Based on the (messy) tracking code contained in [daphTrack](https://github.com/haydengunraj/daphTrack), I decided to make a neater, more generalized toolset for tracking and analyzing the motion of objects. MotionAnalysis allows for object tracking using HSV thresholding. Moreover, a coordinate system and scale can be set on the video using simple drag and drop commands in order to convert image coordinates into real-world spatial coordinates. As a result, position, velocity, and acceleration values for the object are computed in terms of real-world dimensions, allowing for meaningful analysis of the tracker data.
+Based on the (messy) tracking code contained in [daphTrack](https://github.com/haydengunraj/daphTrack), I decided to make a neater, more generalized toolset for tracking and analyzing the motion of objects. MotionTracker allows for object tracking using HSV thresholding. Moreover, a coordinate system and scale can be set on the video using simple drag and drop commands in order to convert image coordinates into real-world spatial coordinates. As a result, position, velocity, and acceleration values for the object are computed in terms of real-world dimensions, allowing for meaningful analysis of the tracker data.
 
 ![Track](https://github.com/haydengunraj/MotionAnalysis/blob/master/samples/tracking.gif "Tracking")
 
@@ -8,7 +8,7 @@ Based on the (messy) tracking code contained in [daphTrack](https://github.com/h
 
 ```python
 # import Tracker
-from MotionAnalysis.tracker import Tracker
+from MotionTracker.tracker import Tracker
 
 # Create Tracker instance with parameters
 t = Tracker(videoPath="inputName.mov", hsvLow=(39, 0, 27), hsvHigh=(130, 255, 74))
