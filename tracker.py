@@ -223,16 +223,20 @@ class Tracker(object):
                 self.yAccel.append(dvy/dt)
                 self.accelTimes.append(tAvg)
         
-    def plotPos(self, comp=False):
+    def plotPos(self, comp=False, cont=False):
         """Plot x-y position, irrespective of time. If comp is True,
         the x and y positions are plotted on separate subplots with
-        respect to time."""
+        respect to time. If cont is true, a continuous curve will
+        be superimposed on the discrete points"""
         x = [p[0] for p in self.positions]
         y = [p[1] for p in self.positions]
         if comp:
             f, axarr = plt.subplots(2, sharex=True, sharey=True, figsize=(12, 6))
-            axarr[0].plot(self.posTimes, x, "k-", linewidth=1)
-            axarr[1].plot(self.posTimes, y, "r-", linewidth=1)
+            if cont:
+                axarr[0].plot(self.posTimes, x, "k-", linewidth=0.5)
+                axarr[1].plot(self.posTimes, y, "r-", linewidth=0.5)
+            axarr[0].plot(self.posTimes, x, "k.", linewidth=1)
+            axarr[1].plot(self.posTimes, y, "r.", linewidth=1)
             axarr[0].set_title("x Position")
             axarr[1].set_title("y Position")
             axarr[0].minorticks_on()
@@ -247,21 +251,26 @@ class Tracker(object):
             plt.ylabel("Position({})".format(self.scale[1]), labelpad=15)
         else:
             plt.figure()
-            plt.plot(x, y, "b-", linewidth=1)
+            if cont:
+                plt.plot(x, y, "b-", linewidth=0.5)
+            plt.plot(x, y, "b.", linewidth=1)
             plt.minorticks_on()
             plt.grid(which="major", linestyle='-', linewidth='0.5', color='black')
             plt.grid(which='minor', linestyle='--', linewidth='0.5', color='grey')
             plt.xlabel("x Position({})".format(self.scale[1]))
             plt.ylabel("y Position({})".format(self.scale[1]))
-        plt.show()
     
-    def plotVel(self, comp=False):
+    def plotVel(self, comp=False, cont=False):
         """Plot speed with respect to time. If comp is true, the component
-        velocities are plotted on separate subplots."""
+        velocities are plotted on separate subplots. If cont is true, a
+        continuous curve will be superimposed on the discrete points"""
         if comp:
             f, axarr = plt.subplots(2, sharex=True, sharey=True, figsize=(12, 6))
-            axarr[0].plot(self.velTimes, self.xVel, "k-", linewidth=1)
-            axarr[1].plot(self.velTimes, self.yVel, "r-", linewidth=1)
+            if cont:
+                axarr[0].plot(self.velTimes, self.xVel, "k-", linewidth=0.5)
+                axarr[1].plot(self.velTimes, self.yVel, "r-", linewidth=0.5)
+            axarr[0].plot(self.velTimes, self.xVel, "k.", linewidth=1)
+            axarr[1].plot(self.velTimes, self.yVel, "r.", linewidth=1)
             axarr[0].set_title("x Component of Velocity")
             axarr[1].set_title("y Component of Velocity")
             axarr[0].minorticks_on()
@@ -276,21 +285,27 @@ class Tracker(object):
             plt.ylabel("Velocity({}/s)".format(self.scale[1]), labelpad=15)
         else:
             plt.figure(figsize=(15, 5))
-            plt.plot(self.velTimes, self.speeds, "k-", linewidth=1)
+            if cont:
+                plt.plot(self.velTimes, self.speeds, "k-", linewidth=0.5)
+            plt.plot(self.velTimes, self.speeds, "k.", linewidth=1)
             plt.minorticks_on()
             plt.grid(which="major", linestyle='-', linewidth='0.5', color='black')
             plt.grid(which='minor', linestyle='--', linewidth='0.5', color='grey')
             plt.xlabel("Time(s)")
             plt.ylabel("Speed({}/s)".format(self.scale[1]))
-        plt.show()
     
-    def plotAcc(self, comp=False):
+    def plotAcc(self, comp=False, cont=False):
         """Plot scalar acceleration with respect to time. If comp is true,
-        the component accelerations are plotted on separate subplots."""
+        the component accelerations are plotted on separate subplots. If
+        cont is true, a continuous curve will be superimposed on the
+        discrete points"""
         if comp:
             f, axarr = plt.subplots(2, sharex=True, sharey=True, figsize=(12, 6))
-            axarr[0].plot(self.accelTimes, self.xAccel, "k-", linewidth=1)
-            axarr[1].plot(self.accelTimes, self.yAccel, "r-", linewidth=1)
+            if cont:
+                axarr[0].plot(self.accelTimes, self.xAccel, "k-", linewidth=0.5)
+                axarr[1].plot(self.accelTimes, self.yAccel, "r-", linewidth=0.5)
+            axarr[0].plot(self.accelTimes, self.xAccel, "k.", linewidth=1)
+            axarr[1].plot(self.accelTimes, self.yAccel, "r.", linewidth=1)
             axarr[0].set_title("x Component of Acceleration")
             axarr[1].set_title("y Component of Acceleration")
             axarr[0].minorticks_on()
@@ -305,12 +320,16 @@ class Tracker(object):
             plt.ylabel("Acceleration({}/s^2)".format(self.scale[1]), labelpad=15)
         else:
             plt.figure(figsize=(15, 5))
-            plt.plot(self.accelTimes, self.accel, "g-", linewidth=1)
+            if cont:
+                plt.plot(self.accelTimes, self.accel, "g.", linewidth=0.5)
+            plt.plot(self.accelTimes, self.accel, "g.", linewidth=1)
             plt.minorticks_on()
             plt.grid(which="major", linestyle='-', linewidth='0.5', color='black')
             plt.grid(which='minor', linestyle='--', linewidth='0.5', color='grey')
             plt.xlabel("Time(s)")
             plt.ylabel("Acceleration({}/s^2)".format(self.scale[1]))
+    
+    def showPlots(self):
         plt.show()
     
     def toTxt(self, filename, outputType):

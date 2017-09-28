@@ -49,15 +49,18 @@ t.computeMotion()
 
 # Plot positions
 t.plotPos()
-t.plotPos(comp=True)
+t.plotPos(comp=True, cont=True)
 
 # Plot speed and velocity components
 t.plotVel()
-t.plotVel(comp=True)
+t.plotVel(comp=True, cont=True)
 
 # Plot acceleration and its components
 t.plotAcc()
-t.plotAcc(comp=True)
+t.plotAcc(comp=True, cont=True)
+
+# Show all plots
+t.showPlots()
 ```
 
 The plotting functions above display position, velocity, and acceleration values in terms of real-world quantities. Some samples taken from the ball drop example are shown below.
